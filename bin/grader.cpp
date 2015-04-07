@@ -265,3 +265,5 @@ int main()
 	}	
 	return 0;
 }
+
+// Copyright (C) 2015 Afrizal Fikri

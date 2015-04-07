@@ -38,3 +38,5 @@ int main() {
 		putchar(c);
 	fclose(stdout);
 }
+
+// Copyright (C) 2015 Afrizal Fikri
