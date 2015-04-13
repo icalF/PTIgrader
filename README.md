@@ -27,7 +27,11 @@ This project is under GNU General Public License. Feel free to using and sharing
 5. In the Edit windows, modify PATH by adding the location of the class to the value for PATH. By default, the location is `C:\MinGW\bin`. If you do not have the item PATH, you may select to add a new variable and add PATH as the name and the location of the class as the value.
 
 ### Filter the Output
-Normally, scoring for PTI practice doesn't design to be automated. In case practician must follow the examples given in the problem description, but not neccesarily matched exactly to the examples. So the output format maybe varies for each file.
-So before run the grader, output must be formatted as the answer be like. As editting all source file is not efficient, PTIgrader have this feature inside `normalizer.cpp`. This file located inside `bin` folder works by filtering only character whose matched predicate(s) listed in the normalizer. Any other else characted will be thrown away.
-For now, normalizer support many character formatting, includes alphabetic, lowercase, uppercase, alphanumeric, decimal number, and many others. Read thouroughly each predicates specification to know where predicates set or not.
+Before run the grader, output must be formatted as the answer be like. As editting all source file is not efficient, 
+PTIgrader have this feature inside `normalizer.cpp`. 
+This file located inside `bin` folder works by filtering only character whose matched predicate(s) listed in the normalizer. 
+Any other else characted will be thrown away.
+
+For now, normalizer support many character formatting, includes alphabetic, lowercase, uppercase, alphanumeric, decimal number, and many others. 
+Read thouroughly each predicates specification to know where predicates set or not.
 And if those predicate doesn't enough, just add your own predicate function or (if additional characters is just a few) put additional characters into **isanother** predicate.
