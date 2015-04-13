@@ -17,7 +17,7 @@ This project is under GNU General Public License. Feel free to using and sharing
 4. Put all testcases into case folder inside PTIgrader-master
 5. Put all answers into ans folder inside PTIgrader-master. Make sure each testcases and answers filename match lexicographically. Alternatively, you can rename each answer file with correspondent testcase file
 6. Edit the `normalizer.cpp` to catch only expected character from program output. See `Filter the Output` section for more details
-7. Finally run the `autograder.sh` (for Linux / Mac) or `autograder.bat` (for Windows) and open **result.txt** to see the practice score
+7. Finally run the `autograder.sh` (for Linux / MacOS) or `autograder.bat` (for Windows) and open **result.txt** to see the practice score
 
 ### Add Compiler Path
 1. Select **Computer** from the Start menu
