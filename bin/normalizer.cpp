@@ -80,7 +80,7 @@ bool isdecimal(char c) { return c == ',' || isinteger(c); }
  */
 bool isanother(char c)
 {
-	char s[] = "*!";					// <--- LIST OF PERMITTED CHARACTERS
+	char s[] = "*$.";					// <--- LIST OF PERMITTED CHARACTERS
 	return strchr(s, c) != NULL;
 }
 
@@ -90,15 +90,15 @@ int main() {
 	freopen("output", "r", stdin);
 
 	while ((cc = getchar()) != EOF) {		// for all character outputted
-		if (isspace(cc) || isalpha(cc) 		// <--- EDIT FILTER HERE
-			|| isanother(c))				// <--- another predicate. LOOK PREDICATE SPECIFICATION ABOVE
+		if (isspace(cc) || isalnum(cc) 		// <--- EDIT FILTER HERE
+			|| isanother(cc))				// <--- another predicate. LOOK PREDICATE SPECIFICATION ABOVE
 			cs.push_back(cc);				// push matched characters
 	}
 
 	fclose(stdin);
 	freopen("output", "w", stdout);
 
-	for (char& c : cs)
+	for (char& c : cs)			// rewrite file with filtered chars
 		putchar(c);
 
 	fclose(stdout);
