@@ -2,12 +2,14 @@
 #include <cstring>
 #include <dirent.h>
 #include <iostream>
-#include <map>
-#include "sandbox.h"
 #include <string>
 #include <sstream>
 #include <sys/types.h>
 #include <vector>
+#include <map>
+
+#include "lib/libsandbox/sandbox.h"
+#include "lib/SimpleJSON/JSON.h"
 
 using namespace std;
 
@@ -16,7 +18,6 @@ vector<string> testcases;                 // testcase files
 vector<string> answers;                   // answer files
 vector< vector<string> > modules;         // module list
 char s[8192];                             // temporary cstring variable; for input buffer or whatever else
-string prefix;                            // prefix of student ID (major and admission year)
 
 /**
  * Procedure set_quota
@@ -43,7 +44,7 @@ vector<string> parse(const string& s, char delim)
   string tmp;
   vector<string> v;
 
-  while (getline(ss, tmp, delim))   // read all string from stream separated by delim
+  while (getline(ss, tmp, delim))           // read all string from stream separated by delim
   {
     v.push_back(tmp);                       // push each to v
   }
@@ -63,7 +64,7 @@ string getext(const string& filename)
   pos = filename.find_last_of('.');   // get substring after last occurence of dot
   
   if (pos == -1) return "";
-  else return filename.substr(pos, -1);
+  else return filename.substr(pos + 1, -1);
 }
 
 /**
@@ -82,10 +83,11 @@ void getdir (const string& dir, vector<string>& files)
     
   if ((dp = opendir(dir.c_str())) == NULL)        // if directory empty pass
     return;
- 
+
   while ((dirp = readdir(dp)) != NULL) {          // while not all files yet listed
     if (strcmp(dirp->d_name, ".")                 // if file is not . and ..
-      && strcmp(dirp->d_name, ".."))
+      && strcmp(dirp->d_name, "..")
+      && getext(dirp->d_name) == "cpp")
       files.push_back(string(dirp->d_name));      // append filename to container
   }
   
@@ -101,9 +103,7 @@ void getdir (const string& dir, vector<string>& files)
  */
 int nimof (const string& file) 
 {
-  int pos = file.find(prefix);
-  if (pos == -1) return -1;
-  return stoi( file.substr( pos, 8 ) );     // convert digits after prefix to integer
+  return stoi( file.substr( 4, 8 ) );     // convert digits after B0X_ to integer
 }
 
 /**
@@ -152,8 +152,10 @@ void pushFromFile(vector<string>& v, FILE* f)
 /**
  * Procedure test
  * [Test the output file with expected answer and output functionality score]
+ *
+ * @return JSON test score
  */
-void test ()
+JSONValue *test ()
 {
   FILE* f;
   vector<string> kunci;
@@ -169,11 +171,11 @@ void test ()
     string ans = answers[i];
     string testcase = testcases[i];
     
-    pushFromFile(kunci, fopen(("ans/" + ans).c_str(), "r"));
+    pushFromFile(kunci, fopen(("../ans/" + ans).c_str(), "r"));
     
     total += kunci.size();
     
-    strcpy(s, "case/");
+    strcpy(s, "../case/");
     strcat(s, testcase.c_str());              
 
     const char* comm[] = {"./main", "<", s, "> output", NULL, };
@@ -184,7 +186,7 @@ void test ()
     if (sbox.result != S_RESULT_OK)             // if runtime error skip scoring
       continue;
     
-    system("./norm");                           // normalize output
+    // system("./norm");                           // normalize output
 
     pushFromFile(jawaban, fopen("output", "r"));
     
@@ -194,7 +196,11 @@ void test ()
     }
   }
   
-  printf("  %2d/%2d", skor, total);             // show score fraction
+  JSONObject grade;
+  grade[L"Accepted"] = new JSONValue((double)skor);
+  grade[L"Total"] = new JSONValue((double)total);
+  
+  return new JSONValue(grade);
 }
 
 /**
@@ -206,80 +212,99 @@ void test ()
  */
 bool headercheck (const string& file)
 {
-  return findinside(file, to_string(nimof(file)));
+  return findinside("../cpp/"+file, to_string(nimof(file)));
 }
 
 /**
- * Procedure modulecheck
+ * Function modulecheck
  * [Find all module existence in source file and output module score]
  * 
  * @param string file
+ * @return JSON module score
  */
-void modulecheck (const string& file)
+JSONValue *modulecheck (const string& file)
 {
   int counter = 0;
   
   for (vector<string>& mods : modules) {
     bool exist = false;
     for (string& s : mods) {                  // if there exist an s
-      exist |= (findinside(file, s) > 0);     // exist set true
+      exist |= (findinside("../cpp/"+file, s) > 0);     // exist set true
     }
     counter += exist;                         // counter add if exist
   }
   
-  printf("   %2d/%2d", counter, modules.size());    // print score fraction
+  JSONObject module;
+  module[L"Exists"] = new JSONValue((double)counter);
+  module[L"Expected"] = new JSONValue((double)modules.size());
+  
+  return new JSONValue(module);
 }
 
 
 /********************* MAIN PROGRAM *************************/
 
-int main()
+int main(int argc, char** argv)
 {
-  cin >> prefix;
+  getdir(string("../cpp"), files);                 // list all source files
+  getdir(string("../ans"), answers);               // list all answer files
+  getdir(string("../case"), testcases);            // list all testcase files
   
-  getdir(string("."), files);                   // list all source files
-  getdir(string("ans"), answers);               // list all answer files
-  getdir(string("case"), testcases);            // list all testcase files
-  
-  FILE* f = fopen("modulelist.txt", "r");
-  while (fgets(s, sizeof(s), f) != NULL) {      // list all modules
+  FILE* f = fopen("../modulelist.txt", "r");
+  while (f != NULL && fgets(s, sizeof(s), f) != NULL) {      // list all modules
     modules.push_back(parse(string(s), '|'));
   }
   fclose(f);
   
-  puts("     NIM  Compile  Score  Header  Module");
+  wprintf(L"Content-type:application/json\r\n\r\n");
+
+  JSONArray resAll;
+  JSONObject result;
+  JSONValue *val;
     
   for (string& file : files) 
-  {
-    if (file.find(".cpp") == -1) continue;      // skip unless cpp file
-    
-    printf("%8d", nimof(file));                 // print ID number
+  {    
+    result[L"NIM"] = new JSONValue((double)nimof(file));      // add SID number
     
     char* com = s;
-    strcpy(com, "g++ -o main ");
+    strcpy(com, "g++ -o main ../cpp/");
     strcat(com, file.c_str());
     
+    // clean up
+    delete result[L"Compile"];
+    delete result[L"Score"];
+    
     // score 1 = compile
-    if (system(com) == 0) {                     // if compilation return normal
-      printf("  Success");                      // output success
+    if (system(com) == 0) {                               // if compilation return normal
+      result[L"Compile"] = new JSONValue(L"Success");     // status success
 
       // score 2 = output
-      test();                                   // run functionality testing
+      result[L"Score"] = test();                          // run functionality testing
     } else {
-      printf("    Error");                      // output fail
-      printf("  %2d/%2d", 0, 0);                // and score set to 0 automatically
+      result[L"Compile"] = new JSONValue(L"Error");       // status error
+
+      // and score set to 0 automatically
+      result[L"Score"] = JSON::Parse(L"{\                  
+        \"Accepted\" : 0,\
+        \"Total\" : 0\
+      }");           
     }
-    
+
     // score 3 = header
     // check header existence
-    printf(headercheck(file) ? "   Exist" : " Lost :(");
+    result[L"Header"] = new JSONValue(headercheck(file) ? L"Exist" : L"Lost");
     
     // score 4 = module
     // check program module
-    modulecheck(file);
-    
-    puts("");
-  } 
+    result[L"Module"] = modulecheck(file);
+
+    val = new JSONValue(result);    
+    resAll.push_back(val);
+  }
+
+  val = new JSONValue(resAll);
+  wprintf(val->Stringify().c_str());
+  
   return 0;
 }
 
