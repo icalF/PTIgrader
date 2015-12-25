@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="http://cdn.jsdelivr.net/animatecss/2.1.0/animate.min.css" type="text/css">
   <link rel="stylesheet" href="css/custom.css">
 </head>
+
 <body id="page-top">
   <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
@@ -59,20 +60,24 @@
       <h1>Grade Now</h1>
       <form id="ajax-grade" method="post" action="upload.php" enctype="multipart/form-data">
         <div class="field-control">
-          <p>Case #1</p>
+          Case #1
           <div class="field">
             <textarea name="input-case-1" id="input-case-1" placeholder="Input case #1" required></textarea>
           </div>
           <div class="field">
             <textarea name="output-case-1" id="output-case-1" placeholder="Output case #1" required></textarea>
           </div>
+          <button class="btn btn-primary" type="button" onclick="AddCase()">Add case</button>
         </div>
 
-        <button class="btn btn-primary" type="button" onclick="AddCase()">Add case</button>
 
-        <p>Select file to be graded:</p>
-        <input type="file" name="fileToUpload" id="fileToUpload">
-        <button class="btn btn-primary" type="submit" onclick="Grade()">Grade</button>
+        <div>
+          <br>
+          <p>Select file to be graded:</p>
+          <input type="file" name="fileToUpload" id="fileToUpload">
+          <br>
+          <button class="btn btn-primary" type="submit" onclick="Grade()">Grade</button>
+        </div>
       </form>
 
     <div id="grading-messages"></div>

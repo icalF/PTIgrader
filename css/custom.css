@@ -10,7 +10,6 @@ body { padding-top: 40px; }
 
 
 .field-control {
-  height: 40px;
   width: 100%;
 }
 .field { 
@@ -31,7 +30,15 @@ body { padding-top: 40px; }
 section {
   padding-top: 40px;
   padding-bottom: 40px;
+  transition: opacity .6s;
+  transition-delay:.2s;
+  -webkit-transition:opacity .6s;
+  -moz-transition:opacity .6s;
+  -o-transition:opacity .6s;
 }
+.loaded section {
+  opacity: 1;
+} 
 
 .footer {
   /*position: absolute;*/
