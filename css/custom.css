@@ -2,30 +2,27 @@ html { min-height: 100%; }
 body { padding-top: 40px; }
 
 .container {
-  /*padding-left: 160px;*/
-  /*padding-right: 160px;*/
-  width: 80%;
+  width: 60%;
+  margin: auto;
 }
 .container h1 { text-align: center; }
 
-
-.field-control {
-  width: 100%;
-}
 .field { 
   width: 100%;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-.transparent { border-bottom: 1px solid #eee; }
-.transparent input, .transparent textarea { 
-  width: 100%; 
-  margin-left: 10px; 
-  border: none;
+.transparent { 
+  border-bottom: 1px solid #eee; 
+}
+.transparent * { 
+  width: 100%;
+  border: none; 
+  resize: none;
 }
 
-/*form { width: 100%; }*/
+#message { height: 120px; }
 
 section {
   padding-top: 40px;
