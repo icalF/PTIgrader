@@ -60,11 +60,14 @@
       <form id="ajax-grade" method="post" action="upload.php" enctype="multipart/form-data">
         <div class="case">
           Case #1
-          <div class="field">
-            <textarea name="input-case-1" id="input-case-1" placeholder="Input case #1" required></textarea>
-          </div>
-          <div class="field">
-            <textarea name="output-case-1" id="output-case-1" placeholder="Output case #1" required></textarea>
+          <div>
+            <div class="col-md-5 block">
+              <textarea name="input-case-1" id="input-case-1" placeholder="Input case #1" required></textarea>
+            </div>
+            <div class="col-md-2 block"></div>
+            <div class="col-md-5 block">
+              <textarea name="output-case-1" id="output-case-1" placeholder="Output case #1" required></textarea>
+            </div>
           </div>
         </div>
 

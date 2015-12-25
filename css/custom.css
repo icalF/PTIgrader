@@ -1,5 +1,6 @@
 html { min-height: 100%; }
 body { padding-top: 40px; }
+textarea { resize: none; width: 100%; }
 
 .container {
   width: 60%;
@@ -13,13 +14,18 @@ body { padding-top: 40px; }
   padding-bottom: 10px;
 }
 
+.block textarea { 
+  height: 140px; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .transparent { 
   border-bottom: 1px solid #eee; 
 }
 .transparent * { 
   width: 100%;
   border: none; 
-  resize: none;
 }
 
 #message { height: 120px; }

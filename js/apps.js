@@ -14,11 +14,14 @@ var addCase = function() {
   $('#ajax-grade .case:last').append(
     '<div class="case">'+
       'Case #'+n+
-      '<div class="field">'+
-        '<textarea name="input-case-'+n+'" id="input-case-'+n+'" placeholder="Input case #'+n+'" required></textarea>'+
-      '</div>'+
-      '<div class="field">'+
-        '<textarea name="output-case-'+n+'" id="output-case-'+n+'" placeholder="Output case #'+n+'" required></textarea>'+
+      '<div>'+
+        '<div class="col-md-5 block">'+
+          '<textarea name="input-case-'+n+'" id="input-case-'+n+'" placeholder="Input case #'+n+'" required></textarea>'+
+        '</div>'+
+        '<div class="col-md-2 block"></div>'+
+        '<div class="col-md-5 block">'+
+          '<textarea name="output-case-'+n+'" id="output-case-'+n+'" placeholder="Output case #'+n+'" required></textarea>'+
+        '</div>'+
       '</div>'+
     '</div>'
   );
