@@ -1,107 +1,29 @@
-#include <cstdio>
-#include <cstring>
-#include <cctype>
-#include <list>
-
-#ifndef __WIN32                     // except windows
-  #define getchar getchar_unlocked  // use getchar_unlocked
-  #define putchar putchar_unlocked  // and putchar_unlocked
-#endif
+#include <cassert>
+#include <fstream>
+#include <iostream>
+#include <iterator>
+#include <regex>
+#include <string>
 
 using namespace std;
 
-list<char> cs;  // container for all char
-char cc;        // char buffer
-
-
-/**
- * List of character's predicate
- *
- * Grouping similiar character to simplify filtering
- * WARNING : READ CAREFULLY EACH PREDICATE FUNCTION BELOW BEFORE EDITTING FILTER
- */
-
-
-/**
- * BUILTIN FUNCTION
- * 
- * isupper(c)
- * Valid only if c is uppercase alphabetic (A-Z)
- *
- * islower(c)
- * Valid only if c is lowercase alphabetic (a-z)
- * 
- * isalpha(c)
- * Valid only if c is alphabetic (lowercase or uppercase)
- *
- * isalnum(c)
- * Valid only if c is alphabetic or numeric digit (0-9)
- */
-
-
-/**
- * NON BUILTIN FUNCTION
- */
-
-/**
- * Function isspace
- * 
- * [Is character belongs to whitespace (space, tab, newline)]
- * 
- * @param char c
- * @return  boolean
- */
-bool isspace(char c) { return c == ' ' || c == '\n' || c == '\t'; }
-
-/**
- * Function isinteger
- * 
- * [Is character belongs to decimal number (digit 0-9 and minus)]
- * @param char c
- * @return  boolean 
- */
-bool isinteger(char c) { return c == '-' || isdigit(c); }
-
-/**
- * Function isdecimal
- * 
- * [Is character belongs to decimal number (integer and comma)]
- * @param char c
- * @return  boolean
- */
-bool isdecimal(char c) { return c == ',' || isinteger(c); }
-
-/**
- * Function isanother
- * 
- * [Permitted character another than provided predicate]
- * @param char c
- * @return  boolean
- */
-bool isanother(char c)
-{
-  char s[] = "*$.";         // <--- LIST OF PERMITTED CHARACTERS
-  return strchr(s, c) != NULL;
-}
-
 /********************* MAIN PROGRAM *************************/
 
-int main() {
-  freopen("output", "r", stdin);
+int main(int argc, char** argv) 
+{
+  assert(argc == 2);          // param is only 1
+  ifstream infile ("output");
 
-  while ((cc = getchar()) != EOF) {   // for all character outputted
-    if (isspace(cc) || isalnum(cc)    // <--- EDIT FILTER HERE
-      || isanother(cc))       // <--- another predicate. LOOK PREDICATE SPECIFICATION ABOVE
-      cs.push_back(cc);       // push matched characters
-  }
+  string param(argv[0]);      // regex parameter from user request
+  regex filter(param);        // create regex from param
+  
+  string input(istreambuf_iterator<char>(infile), {});      // create filestream string
+  string result = regex_replace(input, filter, "");         // erase all matched regex
+  infile.close();
 
-  fclose(stdin);
-  freopen("output", "w", stdout);
-
-  for (char& c : cs)      // rewrite file with filtered chars
-    putchar(c);
-
-  fclose(stdout);
+  ofstream outfile("output", ios_base::out | ios_base::trunc);
+  outfile << result;
+  outfile.close();
 }
 
 // Copyright (C) 2015 Afrizal Fikri
