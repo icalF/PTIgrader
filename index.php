@@ -8,6 +8,7 @@
   <meta name="author" content="Afrizal Fikri">
 
   <title>PTI Grader Site</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" type="text/css">
