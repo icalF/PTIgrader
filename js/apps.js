@@ -1,13 +1,3 @@
-// $(function() {
-//   // Get the form.
-//   var form = $('#ajax-contact');
-
-//   // Get the messages div.
-//   var formMessages = $('#form-messages');
-
-//   // TODO: The rest of the code will go here...
-// });
-
 var addCase = function() {
   var n = $('.case').length + 1;
 
@@ -26,3 +16,29 @@ var addCase = function() {
     '</div>'
   );
 };
+
+var form = $('#ajax-contact');
+$(form).submit( function (event) 
+{
+  event.preventDefault();
+  var formMsg = $('#contact-messages');
+
+  $.ajax({
+    type: 'POST',
+    url: $(form).attr('action'),
+    data: $(form).serialize()
+  })
+  .done(function (response) {
+    $(formMsg).text(response);
+    $('#name').val('');
+    $('#email').val('');
+    $('#message').val('');
+  })
+  .fail(function (data) {
+    if (data.responseText !== '') {
+      $(formMsg).text(data.responseText);
+    } else {
+      $(formMsg).text('Oops! An error occured and your message could not be sent.');
+    }
+  });
+});

@@ -86,30 +86,16 @@
   <div class="container" id="container-contact">
     <h1>Any problem? Contact me here</h1>
     <form id="ajax-contact" method="post" action="mailer.php">
-      <div>
-        <div class="field transparent">
-          <input type="text" id="name" name="name" placeholder="Name" required>
-        </div>
-      </div>
+      <input class="field transparent" type="text" id="name" name="name" placeholder="Name" required>
 
-      <div>
-        <div class="field transparent">
-          <input type="email" id="email" name="email" placeholder="Email" required>
-        </div>
-      </div>
+      <input class="field transparent" type="email" id="email" name="email" placeholder="Email" required>
 
-      <div>
-        <div class="field transparent">
-          <textarea id="message" name="message" placeholder="Message" required></textarea>
-        </div>
-      </div>
+      <textarea class="field transparent" id="message" name="message" placeholder="Message" required></textarea>
 
-      <div class="field">
-        <button class="btn btn-primary" type="submit" onclick="Send()">Send</button>
-      </div>
+      <button class="btn btn-primary" type="submit">Send</button>
     </form>
 
-    <!-- <div id="contact-messages"></div> -->
+    <div id="contact-messages"></div>
   </div>
   </section>
 

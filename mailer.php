@@ -18,21 +18,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Set the recipient email address.
   // FIXME: Update this to your desired email address.
-  $recipient = "hello@example.com";
+  // $recipient = "laser.survivor@gmail.com";
 
   // Set the email subject.
-  $subject = "New contact from $name";
+  // $subject = "New contact from $name";
 
   // Build the email content.
-  $email_content = "Name: $name\n";
-  $email_content .= "Email: $email\n\n";
-  $email_content .= "Message:\n$message\n";
+  // $email_content = "Name: $name\n";
+  // $email_content .= "Email: $email\n\n";
+  // $email_content .= "Message:\n$message\n";
 
   // Build the email headers.
-  $email_headers = "From: $name <$email>";
+  // $email_headers = "From: $name <$email>";
+  
+  // Save to DB
+  $conn = new mysqli('localhost', 'root', '', 'grader');
+  $sql = "INSERT INTO response (name, content, email) VALUES ('".$name."', '".$message."', '".$email."')";
 
   // Send the email.
-  if (mail($recipient, $subject, $email_content, $email_headers)) {
+  // if (mail($recipient, $subject, $email_content, $email_headers)) {
+  if (!$conn->connect_error && $conn->query($sql) === TRUE) {
     // Set a 200 (okay) response code.
     http_response_code(200);
     echo "Thank You! Your message has been sent.";
