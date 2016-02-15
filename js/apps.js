@@ -1,12 +1,17 @@
-// $(function() {
-//   // Get the form.
-//   var form = $('#ajax-contact');
-
-//   // Get the messages div.
-//   var formMessages = $('#form-messages');
-
-//   // TODO: The rest of the code will go here...
-// });
+$(function() {
+  $('a[href*="#"]:not([href="#"])').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $('html, body').animate({
+          scrollTop: target.offset().top
+        }, 700);
+        return false;
+      }
+    }
+  });
+});
 
 var addCase = function() {
   var n = $('.case').length + 1;

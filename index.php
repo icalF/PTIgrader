@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="http://cdn.jsdelivr.net/animatecss/2.1.0/animate.min.css" type="text/css">
   <link rel="stylesheet" href="css/custom.css">
   
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" charset="utf-8"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js" charset="utf-8"></script>
 </head>
 
 <body id="page-top">
