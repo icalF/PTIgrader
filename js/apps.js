@@ -9,3 +9,28 @@ function addCase() {
 function triggerFile() {
   $('#fileToUpload').trigger('click');
 }
+var form = $('#ajax-contact');
+$(form).submit( function (event) 
+{
+  event.preventDefault();
+  var formMsg = $('#contact-messages');
+
+  $.ajax({
+    type: 'POST',
+    url: $(form).attr('action'),
+    data: $(form).serialize()
+  })
+  .done(function (response) {
+    $(formMsg).text(response);
+    $('#name').val('');
+    $('#email').val('');
+    $('#message').val('');
+  })
+  .fail(function (data) {
+    if (data.responseText !== '') {
+      $(formMsg).text(data.responseText);
+    } else {
+      $(formMsg).text('Oops! An error occured and your message could not be sent.');
+    }
+  });
+});

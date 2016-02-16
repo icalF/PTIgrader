@@ -21,11 +21,9 @@ textarea { resize: none; width: 100%; }
 }
 
 .transparent { 
-  border-bottom: 1px solid #eee; 
-}
-.transparent * { 
   width: 100%;
   border: none; 
+  border-bottom: 1px solid #eee; 
 }
 
 #message { height: 120px; }
