@@ -5,8 +5,8 @@ function addCase() {
   );
 };
 
-function addFile(name) {
-  var str = '<a href="cpp/'+name+'">'+name+'</a><br>';
+function addFile(name, dir) {
+  var str = '<a href="'+dir+'">'+name+'</a><br>';
   $('#triggerUpload').before(str);
 }
 

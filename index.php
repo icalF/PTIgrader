@@ -1,3 +1,5 @@
+<?php session_start(); $_SESSION["id"] = uniqid(); echo $_SESSION["id"]; ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,3 +114,4 @@
   </footer>
 </body>
 </html>
+

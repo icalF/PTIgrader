@@ -28,8 +28,12 @@ function upload() {
     processData: false,  // tell jQuery not to process the data
     contentType: false,  // tell jQuery not to set contentType
     success : function(data) {
-      addFile(form.files[0].name);
-      $('#uploadStatus').text(data);
+      addFile(getBasename(data), data);
+      $('#uploadStatus').text("The file "+getBasename(data)+" has been uploaded.");
     }
   });
 };
+
+function getBasename(dir) {
+  return dir.substring(18);
+}

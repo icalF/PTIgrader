@@ -1,12 +1,17 @@
 <?php
-$target_dir = "cpp/";
-// echo $_FILES["fileToUpload"]["name"];
+session_start();
+$id = $_SESSION["id"];
+
+$target_dir = "cpp/" . $id . '/';
+if (!is_dir($target_dir)) {
+  mkdir($target_dir);
+}
+
 $name = $_FILES["file"]["name"];
 
 $target_file = $target_dir . basename($name);
-// $uploadOk = 1;
+
 $fileType = pathinfo($target_file, PATHINFO_EXTENSION);
-// echo $target_file;
 
 // Check whether cpp valid
 if ($fileType != "cpp") 
@@ -17,10 +22,11 @@ if ($fileType != "cpp")
 {
   if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) 
   {
-    echo "The file ". basename( $name). " has been uploaded.";
+    echo $target_file;
   } else 
   {
     http_response_code(500);
-    echo "Sorry, there was an error uploading your file.";
+    // echo "Sorry, there was an error uploading your file.";
+    // die($target_file);
   }
 }
