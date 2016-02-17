@@ -26,7 +26,6 @@ if ($fileType != "cpp")
   } else 
   {
     http_response_code(500);
-    // echo "Sorry, there was an error uploading your file.";
-    // die($target_file);
+    echo "Sorry, there was an error uploading your file.";
   }
 }

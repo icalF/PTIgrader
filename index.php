@@ -1,4 +1,4 @@
-<?php session_start(); $_SESSION["id"] = uniqid(); echo $_SESSION["id"]; ?>
+<?php session_start(); $_SESSION["id"] = uniqid(); ?>
 
 <!DOCTYPE html>
 <html>
