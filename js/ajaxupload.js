@@ -1,35 +1,35 @@
-var app = angular.module("pti-grader", []);
-
-app.controller("gradeCtrl", function($scope) {
-  $scope.firstName = "John";
-  $scope.lastName = "Doe";
-});
-
-$(':file').change(function () {
+function upload() {
   var formData = new FormData();
-  formData.append('file', this.files[0]);
+  var form = $(':file')[0];
+  formData.append('file', form.files[0]);
 
   $.ajax({
     url : 'upload.php',
     type : 'POST',
     data : formData,
-    // xhr: function() {  // custom xhr
-    //   // myXhr = $.ajaxSettings.xhr();
-    //   // if(myXhr.upload){ // if upload property exists
-    //   //     myXhr.upload.addEventListener('progress', progressHandlingFunction, false); // progressbar
-    //   // }
-    //   // return myXhr;
-    // },
+    xhr: function() {  // custom xhr
+      myXhr = $.ajaxSettings.xhr();
+      if(myXhr.upload) { // if upload property exists
+        myXhr.upload.addEventListener('progress', function (event) {
+          if (event.lengthComputable) {
+            var percentComplete = event.loaded / event.total;
+
+            //Do something with upload progress
+            $('#uploadStatus').text('Uploading ..... '+percentComplete+'%');
+          }
+        }, false);
+      }
+      return myXhr;
+    },
     error: function(xhr, stat, err) {
       alert(xhr.responseText);
+      $('#uploadStatus').text('');
     },
     processData: false,  // tell jQuery not to process the data
     contentType: false,  // tell jQuery not to set contentType
     success : function(data) {
-       console.log(data);
-       alert(data);
+      addFile(form.files[0].name);
+      $('#uploadStatus').text(data);
     }
   });
-
-  this[0].reset();
-});
+};
