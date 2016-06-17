@@ -1,4 +1,6 @@
 # PTIgrader
+![Build status]
+(https://travis-ci.org/icalF/PTIgrader.svg?branch=master)
 Dedicated for beloved TPB kids, grader for PTI course
 
 ### Introduction
@@ -6,7 +8,7 @@ PTIgrader is designed to make a boring grading job a lot much easier. This progr
 
 This project is under GNU General Public License. Feel free to using and sharing FOR NON-COMMERCIAL USE.
 
-### Requirements
+### Requirements 
 1. GNU C++ compiler installed (by standalone package like [MinGW](http://sourceforge.net/projects/mingw/files/Installer/), or IDE built-in like [Code::Blocks](http://www.codeblocks.org/downloads/binaries) or [Dev-C++](http://www.bloodshed.net/dev/devcpp.html) ). Don't be confused with Turbo C++ or MS C++ (if you have Visual Studio). Make sure of using latest compiler version because grader using C++11 features.
 2. For Windows : path of compiler has added to `PATH Environment`. If you don't really understand how to add it, follow instruction below in the `Add Compiler Path` section.
 
